@@ -169,6 +169,7 @@ Supported options:
 | url | string   | URL you want to share (only support base64 string in iOS & Android ). |
 | urls | Array[string]   | array of base64 string you want to share (only support iOS & Android). |
 | type | string   | File mime type (optional) |
+| fileName | string  | File name including extension (optional, requires type) |
 | message | string   |  |
 | title | string   |  (optional) |
 | subject | string   | (optional) |
