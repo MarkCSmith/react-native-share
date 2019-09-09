@@ -20,10 +20,12 @@ public class ShareFile {
     private String url;
     private Uri uri;
     private String type;
+    private String fileName;
 
-    public ShareFile(String url, String type, ReactApplicationContext reactContext){
+    public ShareFile(String url, String type, String fileName, ReactApplicationContext reactContext){
         this(url, reactContext);
         this.type = type;
+        this.fileName = fileName;
     }
 
     public ShareFile(String url, ReactApplicationContext reactContext){
@@ -98,9 +100,11 @@ public class ShareFile {
         return result;
     }
     public Uri getURI() {
-
-        final MimeTypeMap mime = MimeTypeMap.getSingleton();
-        String extension = mime.getExtensionFromMimeType(getType());
+        if (this.fileName == null) {
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            String extension = mime.getExtensionFromMimeType(getType());
+            this.fileName = System.nanoTime() + "." + extension;
+        }
 
         if(this.isBase64File()) {
             String encodedImg = this.uri.getSchemeSpecificPart().substring(this.uri.getSchemeSpecificPart().indexOf(";base64,") + 8);
@@ -109,7 +113,7 @@ public class ShareFile {
                 if (!dir.exists() && !dir.mkdirs()) {
                     throw new IOException("mkdirs failed on " + dir.getAbsolutePath());
                 }
-                File file = new File(dir, System.nanoTime() + "." + extension);
+                File file = new File(dir, this.fileName);
                 final FileOutputStream fos = new FileOutputStream(file);
                 fos.write(Base64.decode(encodedImg, Base64.DEFAULT));
                 fos.flush();
