@@ -96,6 +96,7 @@ export interface ShareOptions {
   recipient?: string;
   excludedActivityTypes?: ActivityType[];
   failOnCancel?: boolean;
+  writePermissionNotNeeded?: boolean;
   showAppsToView?: boolean;
   filename?: string;
   filenames?: string[];
