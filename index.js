@@ -92,6 +92,7 @@ type Options = {
   excludedActivityTypes?: string,
   fileName?: string,
   failOnCancel?: boolean,
+  writePermissionNotNeeded?: boolean,
   showAppsToView?: boolean,
 };
 type MultipleOptions = {
@@ -104,6 +105,7 @@ type MultipleOptions = {
   excludedActivityTypes?: string,
   fileName?: string,
   failOnCancel?: boolean,
+  writePermissionNotNeeded?: boolean,
   showAppsToView?: boolean,
 };
 
@@ -111,7 +113,10 @@ type OpenReturn = { app?: string, dismissedAction?: boolean };
 type ShareSingleReturn = { message: string, isInstalled?: boolean };
 
 const requireAndAskPermissions = async (options: Options | MultipleOptions): Promise<any> => {
-  if ((options.url || options.urls) && Platform.OS === 'android') {
+  let needWritePermission = !("writePermissionNotNeeded" in options) ||
+                            !options.writePermissionNotNeeded;
+  if (needWritePermission && (options.url || options.urls) &&
+      Platform.OS === 'android') {
     const urls: Array<string> = options.urls || [options.url];
     try {
       const resultArr = await Promise.all(
@@ -243,6 +248,23 @@ class RNShare {
             );
           })
           .catch(e => reject(e));
+      });
+    } else {
+      throw new Error('Not implemented');
+    }
+  }
+
+  static removeTemporaryFiles(): Promise<boolean> {
+    if (Platform.OS === 'android') {
+      return new Promise((resolve, reject) => {
+        NativeModules.RNShare.removeTemporaryFiles(
+          e => {
+            return reject({error: e});
+          },
+          () => {
+            return resolve(true);
+          }
+        );
       });
     } else {
       throw new Error('Not implemented');
