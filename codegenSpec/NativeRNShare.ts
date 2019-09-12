@@ -28,6 +28,7 @@ export interface Spec extends TurboModule {
   };
   open: (options: Object) => Promise<{ success: boolean; message: string }>;
   shareSingle: (options: Object) => Promise<{ success: boolean; message: string }>;
+  removeTemporaryFiles: () => Promise<boolean>;
   isPackageInstalled: (packagename: string) => Promise<boolean>;
   isBase64File: (url: string) => Promise<boolean>;
 }
