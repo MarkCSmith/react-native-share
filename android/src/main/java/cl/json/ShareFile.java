@@ -1,7 +1,6 @@
 package cl.json;
 
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Base64;
 import android.webkit.MimeTypeMap;
 
@@ -128,8 +127,7 @@ public class ShareFile {
              }
 
             try {
-                File cacheDir = this.useInternalStorage ? this.reactContext.getCacheDir() : this.reactContext.getExternalCacheDir();
-                File dir = new File(cacheDir, Environment.DIRECTORY_DOWNLOADS);
+                File dir = new File(this.reactContext.getCacheDir(), "rnshare-tmp");
                 if (!dir.exists() && !dir.mkdirs()) {
                     throw new IOException("mkdirs failed on " + dir.getAbsolutePath());
                 }
@@ -152,5 +150,23 @@ public class ShareFile {
         }
 
         return null;
+    }
+
+    static public void removeTemporaryFiles(ReactApplicationContext reactContext) {
+        File dir = new File(reactContext.getCacheDir(), "rnshare-tmp");
+        if (dir.exists()) {
+            deleteRecursive(dir);
+        }
+    }
+
+    // credit: https://stackoverflow.com/questions/13410949/
+    static private void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles()) {
+                deleteRecursive(child);
+            }
+        }
+
+        fileOrDirectory.delete();
     }
 }

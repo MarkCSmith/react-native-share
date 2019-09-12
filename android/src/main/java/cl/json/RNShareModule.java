@@ -221,4 +221,16 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
             failureCallback.invoke(e.getMessage());
         }
     }
+
+    @ReactMethod
+    public void removeTemporaryFiles(@Nullable Callback failureCallback, @Nullable Callback successCallback) {
+        try {
+            GenericShare share = new GenericShare(this.reactContext);
+            share.removeTemporaryFiles();
+            successCallback.invoke(true);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            failureCallback.invoke(e.getMessage());
+        }
+    }
 }
