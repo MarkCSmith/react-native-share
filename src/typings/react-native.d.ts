@@ -34,6 +34,11 @@ declare module 'react-native' {
       successCallback: (success: boolean, message: string) => void,
     ): Promise<void>;
 
+    removeTemporaryFiles(
+      errorCallback: (error: string) => void,
+      successCallback: () => void,
+    ): Promise<boolean>;
+
     isPackageInstalled(
       packageName: string,
       errorCallback: (error: string) => void,

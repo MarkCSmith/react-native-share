@@ -115,6 +115,23 @@ const RNShare = {
     }
   },
 
+  removeTemporaryFiles(): Promise<boolean | never> {
+    if (Platform.OS === 'android') {
+      return new Promise((resolve, reject) => {
+        NativeModules.RNShare.removeTemporaryFiles(
+          (err) => {
+            return reject({error: err});
+          },
+          () => {
+            return resolve(true);
+          }
+        );
+      });
+    } else {
+      throw new Error('Not implemented');
+    }
+  },
+
   isPackageInstalled(packageName: string): Promise<IsPackageInstalledResult | never> {
     if (Platform.OS === 'android') {
       return new Promise((resolve, reject) => {
