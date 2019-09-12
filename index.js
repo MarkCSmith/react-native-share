@@ -94,6 +94,7 @@ type Options = {
   title?: string,
   subject?: string,
   excludedActivityTypes?: string,
+  fileName?: string,
   failOnCancel?: boolean,
   showAppsToView?: boolean,
 };
@@ -105,6 +106,7 @@ type MultipleOptions = {
   title?: string,
   subject?: string,
   excludedActivityTypes?: string,
+  fileName?: string,
   failOnCancel?: boolean,
   showAppsToView?: boolean,
 };
