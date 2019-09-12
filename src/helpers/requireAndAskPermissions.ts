@@ -8,9 +8,12 @@ const androidPermissionRequestRequired =
   ANDROID_KIT_KAT_SDK_VERSION;
 
 const requireAndAskPermissions = async (
-  options: Pick<ShareOptions, 'url' | 'urls'>,
+  options: Pick<ShareOptions, 'url' | 'urls' | 'writePermissionNotNeeded'>,
 ): Promise<boolean | never> => {
-  if ((options.url || options.urls) && Platform.OS === 'android') {
+  const needWritePermission = !("writePermissionNotNeeded" in options) ||
+                              !options.writePermissionNotNeeded;
+  if (needWritePermission && (options.url || options.urls) &&
+      Platform.OS === 'android') {
     const urls: string[] = options.urls || (options.url ? [options.url] : []);
     try {
       const resultArr = await Promise.all(

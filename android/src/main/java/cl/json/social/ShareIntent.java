@@ -189,6 +189,10 @@ public abstract class ShareIntent {
         }
     }
 
+    public void removeTemporaryFiles() {
+        ShareFile.removeTemporaryFiles(this.reactContext);
+    }
+
     protected ShareFile getFileShare(ReadableMap options) {
         String filename = null;
         if (ShareIntent.hasValidKey("filename", options)) {
