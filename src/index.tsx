@@ -89,6 +89,12 @@ const RNShare = {
     return result;
   },
 
+  async removeTemporaryFiles() {
+    if (!isAndroid()) throw new Error('Not implemented');
+
+    return await NativeRNShare.removeTemporaryFiles();
+  },
+
   async isPackageInstalled(packageName: string) {
     if (!isAndroid()) throw new Error('Not implemented');
 

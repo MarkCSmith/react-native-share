@@ -44,6 +44,11 @@ public class RNShare extends NativeRNShareSpec {
     }
 
     @Override
+    public void removeTemporaryFiles(Promise promise) {
+        delegate.removeTemporaryFiles(promise);
+    }
+
+    @Override
     public void isPackageInstalled(String packagename, Promise promise) {
         delegate.isPackageInstalled(packagename,promise);
     }
