@@ -41,6 +41,11 @@ public class RNShare extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void removeTemporaryFiles(Promise promise) {
+        delegate.removeTemporaryFiles(promise);
+    }
+
+    @ReactMethod
     public void isPackageInstalled(String packagename, Promise promise) {
         delegate.isPackageInstalled(packagename,promise);
     }

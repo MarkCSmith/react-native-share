@@ -213,4 +213,15 @@ public class RNShareImpl implements ActivityEventListener {
             promise.reject(e.getMessage());
         }
     }
+
+    public void removeTemporaryFiles(Promise promise) {
+        try {
+            GenericShare share = new GenericShare(RCTContext);
+            share.removeTemporaryFiles();
+            promise.resolve(true);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            promise.reject(e.getMessage());
+        }
+    }
 }
