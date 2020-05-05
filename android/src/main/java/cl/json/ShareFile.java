@@ -122,13 +122,18 @@ public class ShareFile {
         if(this.isBase64File()) {
             String encodedImg = this.uri.toString().substring(BASE_64_DATA_LENGTH + this.type.length() + BASE_64_DATA_OFFSET);
             String filename = this.filename != null ? this.filename : System.nanoTime() + "";
+             // Only add an extension if the system has a mapping for this file's MIME type.
+             if (extension != null) {
+               filename = filename + "." + extension;
+             }
+
             try {
                 File cacheDir = this.useInternalStorage ? this.reactContext.getCacheDir() : this.reactContext.getExternalCacheDir();
                 File dir = new File(cacheDir, Environment.DIRECTORY_DOWNLOADS);
                 if (!dir.exists() && !dir.mkdirs()) {
                     throw new IOException("mkdirs failed on " + dir.getAbsolutePath());
                 }
-                File file = new File(dir, filename + "." + extension);
+                File file = new File(dir, filename);
                 final FileOutputStream fos = new FileOutputStream(file);
                 fos.write(Base64.decode(encodedImg, Base64.DEFAULT));
                 fos.flush();
